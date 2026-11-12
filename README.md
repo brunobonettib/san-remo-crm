@@ -1,92 +1,248 @@
 # San Remo CRM
 
-Base inicial do CRM imobiliário da San Remo, criada com React, TypeScript e Vite.
+CRM imobiliário desenvolvido como desafio técnico Full Stack para a **San Remo Imóveis**.
 
-## Requisitos
+A aplicação permite gerenciar leads, acompanhar o funil de vendas, controlar a presença de corretores por QR Code e distribuir oportunidades por round-robin, respeitando a ordem da fila e a disponibilidade dos profissionais.
 
-- Node.js 20.19 ou superior
-- npm 10 ou superior
+O projeto prioriza experiência do usuário, responsividade, segurança e persistência dos dados.
 
-## Como executar
+### Links do projeto
+
+- **Aplicação:** https://san-remo-crm-rose.vercel.app
+- **Código-fonte:** https://github.com/brunobonettib/san-remo-crm
+
+## Tecnologias utilizadas
+
+| Camada | Tecnologia |
+|---|---|
+| Frontend | React, TypeScript, Vite |
+| Banco de dados | Supabase PostgreSQL |
+| Autenticação | Supabase Auth |
+| Segurança | Row Level Security (RLS), permissões PostgreSQL e RPCs |
+| Navegação | React Router |
+| QR Code | qrcode.react |
+| Versionamento | Git e GitHub |
+| Deploy | Vercel |
+| Inteligência artificial | OpenAI Codex e ChatGPT |
+
+## Funcionalidades
+
+### Gestor
+
+- Visualização de todos os leads em funil Kanban.
+- Cadastro, edição e consulta de contatos.
+- Reservatório de leads ainda não atribuídos.
+- Registro e consulta de observações.
+- Exibição do QR Code de presença, renovado a cada cinco minutos.
+- Consulta à fila e à validade da presença dos corretores.
+- Distribuição round-robin de leads.
+- Histórico persistente das distribuições.
+
+### Corretor
+
+- Login individual.
+- Confirmação de presença por QR Code.
+- Visualização exclusiva dos leads atribuídos.
+- Atualização das etapas de atendimento.
+- Registro e consulta de observações.
+
+### Funil de vendas
+
+O funil possui seis etapas:
+
+**Novo → Em contato → Visita agendada → Proposta → Ganho → Perdido**
+
+Leads sem responsável permanecem no reservatório até serem distribuídos pelo gestor.
+
+### Presença por QR Code
+
+O QR Code é disponibilizado na área do gestor e atualizado automaticamente a cada cinco minutos.
+
+O corretor utiliza a câmera do celular para acessar o link, autentica-se quando necessário e confirma sua presença.
+
+- Somente o QR vigente é aceito.
+- A presença habilita o corretor por cinco horas.
+- A renovação durante a validade preserva a posição.
+- Após a expiração, uma nova confirmação coloca o corretor no final da fila.
+- A identidade e os horários são validados no servidor.
+
+### Distribuição round-robin
+
+Cada acionamento do gestor distribui **um lead**, selecionando o mais antigo do reservatório e o próximo corretor elegível.
+
+Após receber o lead, o corretor é movido para o final da fila.
+
+A distribuição utiliza uma transação PostgreSQL para garantir consistência entre atribuição, movimentação da fila e registro do histórico.
+
+O sistema impede a atribuição duplicada e informa quando não existem leads ou corretores elegíveis.
+
+## Demonstração
+
+A aplicação possui contas fictícias para avaliação.
+
+| Perfil | E-mail |
+|---|---|
+| Gestor | gestor.demo@example.com |
+| Corretor — Ana | ana.demo@example.com |
+| Corretor — Pedro | pedro.demo@example.com |
+| Corretor — Carla | carla.demo@example.com |
+
+**As senhas de demonstração serão fornecidas diretamente à equipe avaliadora, por canal privado.**
+
+O cadastro público está desabilitado; os usuários são administrados pelo Supabase.
+
+## Executar localmente
+
+### Pré-requisitos
+
+- Node.js 20.19+
+- npm 10+
+- Projeto Supabase configurado
+
+Clone o repositório e instale as dependências:
 
 ```bash
+git clone https://github.com/brunobonettib/san-remo-crm.git
+cd san-remo-crm
 npm install
+```
+
+Copie `.env.example` para `.env.local` e configure:
+
+```dotenv
+VITE_SUPABASE_URL=https://seu-projeto.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=sua-chave-publicavel
+VITE_APP_URL=http://localhost:5173
+```
+
+Inicie a aplicação:
+
+```bash
 npm run dev
 ```
 
-O servidor de desenvolvimento informará no terminal o endereço local da aplicação.
-
-## Build de produção
+Para validar o build de produção:
 
 ```bash
 npm run build
 ```
 
-Os arquivos gerados serão salvos em `dist/`.
+O arquivo `vercel.json` configura o redirecionamento necessário para as rotas da aplicação na Vercel.
 
-## Variáveis de ambiente
+**Segurança:** variáveis `VITE_` ficam disponíveis no frontend. Utilize somente a chave publicável do Supabase. Nunca inclua senhas, chaves privadas ou `service_role` no código ou no repositório.
 
-Copie `.env.example` para `.env.local` e preencha as variáveis públicas do projeto Supabase:
+Para testar a leitura do QR Code em um celular durante o desenvolvimento, configure `VITE_APP_URL` com um endereço acessível pelo aparelho.
 
-```env
-VITE_SUPABASE_URL=https://seu-projeto.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=sua-chave-publicavel
+## Configuração do Supabase
+
+Crie um projeto Supabase com autenticação por e-mail e senha.
+
+Execute as migrações SQL disponíveis em `supabase/migrations/`, na ordem abaixo, utilizando o SQL Editor com privilégios administrativos:
+
+| Ordem | Migração | Finalidade |
+|---|---|---|
+| 1 | `20261112000000_create_profiles.sql` | Perfis e permissões |
+| 2 | `20261112010000_create_leads.sql` | Leads, etapas e observações |
+| 3 | `20261112020000_create_presenca.sql` | Presença, QR Code e fila |
+| 4 | `20261112030000_create_distribuicao.sql` | Round-robin e histórico |
+
+As migrações recriam a estrutura necessária do banco, incluindo políticas RLS, permissões, funções e índices. Devem ser executadas uma única vez, na sequência indicada, em um banco novo.
+
+### Usuários e perfis
+
+1. Acesse **Authentication → Users** e crie os usuários fictícios.
+2. Copie o UUID de cada usuário.
+3. Cadastre o UUID correspondente em `public.profiles`, informando nome e papel (`gestor` ou `corretor`).
+4. Desabilite novos cadastros públicos em **Authentication → Sign In / Providers**.
+5. Mantenha o schema `private` fora dos schemas expostos pela Data API.
+
+Exemplo de criação administrativa de um perfil:
+
+```sql
+insert into public.profiles (id, nome, papel)
+values (
+  'UUID_DO_USUARIO',
+  'Corretor Demo',
+  'corretor'
+);
 ```
 
-As duas variáveis são validadas ao carregar o cliente. Se alguma estiver ausente ou vazia, a aplicação informa apenas o nome da variável necessária, sem expor valores.
+Substitua o UUID pelo identificador do usuário criado no Supabase Auth. Execute como administrador no SQL Editor.
 
-Variáveis prefixadas com `VITE_` são incluídas no código do frontend. Portanto, use somente a chave publicável do Supabase e nunca adicione chaves secretas ou privilegiadas.
+Em **Authentication → URL Configuration**, informe o endereço da aplicação e os redirecionamentos autorizados.
 
-O cliente está disponível em `src/lib/supabase.ts`. A sessão é persistida e renovada pelo SDK Supabase. O logout encerra a sessão deste navegador.
+As migrações não criam automaticamente contas nem leads de demonstração. Após a configuração, os leads podem ser cadastrados normalmente pela interface do gestor.
 
-## Autenticação e perfis
+## Como testar os fluxos principais
 
-- `/login`: entrada com e-mail e senha, sem cadastro público na interface.
-- `/gestor`: página inicial exclusiva de gestores.
-- `/corretor`: página inicial exclusiva de corretores.
+### 1. CRM e funil
 
-A aplicação consulta `id`, `nome` e `papel` em `public.profiles`, filtrando pelo usuário autenticado. Um perfil ausente, inválido ou uma falha na consulta bloqueia as páginas protegidas. A tentativa de abrir a URL de outro papel redireciona para a área do próprio usuário.
+Entre como gestor, cadastre um lead fictício e verifique sua entrada no reservatório. Abra os detalhes, edite os dados e registre uma observação. Recarregue a aplicação para verificar a persistência.
 
-Para testar com usuários reais, aplique manualmente a migração em `supabase/migrations/` como `postgres` no SQL Editor e cadastre os usuários em Authentication > Users. Depois insira os perfis pelo painel, usando o UUID de cada usuário, um nome e o papel `gestor` ou `corretor`. A aplicação não cria nem altera perfis.
+### 2. Presença dos corretores
 
-Para manter o cadastro exclusivamente administrativo, desative a opção de permitir novos cadastros públicos nas configurações de Supabase Auth. Não exponha o schema `private` na Data API. A proteção de dados depende das políticas RLS e dos GRANTs da migração; as rotas protegem a interface.
+Na área do gestor, exiba o QR Code. Escaneie pelo celular e faça login como corretor. Confirme a presença e verifique sua posição e validade na fila.
 
-O projeto usa React Router para navegação. Na hospedagem, configure fallback das rotas para `index.html`, permitindo recarregar `/gestor` e `/corretor`. No Vercel, o arquivo `vercel.json` já define esse comportamento.
+Repita com outros corretores e renove uma presença válida para verificar a preservação da posição.
 
-Validação manual sugerida: entre com um usuário de cada papel, recarregue a página, tente abrir a URL do outro papel e saia da conta. Confira também que um usuário sem perfil fica bloqueado.
+### 3. Distribuição round-robin
 
-## Estado atual
+Com corretores habilitados e leads disponíveis no reservatório, clique em **Distribuir próximo lead**.
 
-Em `/gestor`, o CRM consulta leads reais do Supabase, exibe o funil nas seis etapas e o reservatório de leads sem responsável, do mais antigo para o mais recente. A listagem busca todas as páginas da API e inclui o nome do responsável quando houver.
+Confira o resultado, a movimentação da fila e o histórico. Repita para verificar a distribuição circular.
 
-O cadastro envia somente `nome`, `telefone`, `origem`, `interesse`, `email` (opcional) e `etapa`. O responsável é definido pelo banco como `NULL`. A edição usa `atualizar_lead` com `p_id`, `p_nome`, `p_telefone`, `p_origem`, `p_interesse`, `p_email` e `p_etapa`, preservando a atribuição atual.
+### 4. Atendimento pelo corretor
 
-Para usar essas operações, a versão atual da migração `20261112010000_create_leads.sql` precisa estar aplicada no seu projeto Supabase. As migrações não são executadas pela aplicação.
+Entre como o corretor que recebeu um lead. Confira o acesso ao contato, atualize sua etapa e registre uma observação.
 
-Validação do gestor: confira o funil e a ordem do reservatório, cadastre um lead sem e-mail, abra seus detalhes, edite seus dados e recarregue a página para conferir a persistência. Se a API falhar, a interface permite tentar novamente sem preencher a lista com dados fictícios.
+O corretor não pode acessar leads atribuídos a outros profissionais nem executar a distribuição.
 
-Em `/corretor`, o funil lista somente o resultado autorizado pela RLS da sessão. O corretor consulta os detalhes e atualiza a etapa usando `UPDATE` com payload `{ etapa }`, filtrado pelo ID do lead. Não há cadastro, acesso ao reservatório ou edição de contato/responsável nessa área.
+## Segurança e consistência
 
-O detalhe do lead inclui observações para gestor e corretor, com texto, autor e data. O cadastro envia somente `lead_id` e `texto`; os registros não podem ser editados ou excluídos pela interface. Quando a RLS de `profiles` impede a consulta ao nome de outro autor, a observação exibe seu identificador real (`autor_id`), sem tentar ampliar o acesso ao perfil.
+As permissões são verificadas no PostgreSQL, além das restrições de navegação do frontend.
 
-Validação do corretor: use um usuário com leads atribuídos, confira as seis etapas e atualize uma etapa. Em ambos os perfis, registre uma observação, reabra o detalhe e confira texto, autor e data. Confirme também as mensagens para lista vazia, falha de consulta e operação negada pelo banco.
+- Autenticação individual pelo Supabase Auth.
+- RLS para restringir o acesso aos dados conforme o perfil.
+- Funções administrativas com autorização explícita no banco.
+- Distribuição transacional com bloqueios contra concorrência.
+- Histórico persistente e protegido contra alterações.
+- Validação da presença e do QR Code pelo horário do servidor.
+- Ausência de credenciais privilegiadas no frontend.
 
-## Presença por QR Code
+## Desenvolvimento com inteligência artificial
 
-Requer a migração `20261112020000_create_presenca.sql` aplicada manualmente no Supabase, após as anteriores. A interface utiliza somente as RPCs `obter_qr_presenca()`, `listar_presencas()` e `confirmar_presenca(p_token)`; não consulta nem altera as tabelas privadas.
+Foram utilizadas duas ferramentas de IA durante o desenvolvimento:
 
-Em `/gestor`, a seção **Presença e equipe** exibe o QR vigente e a fila com posição, validade e elegibilidade retornadas pelo servidor. O QR é consultado na fronteira estimada da janela de cinco minutos, a cada 15 segundos e ao retornar à aba. A fila é atualizada a cada 30 segundos e pode ser atualizada manualmente. O cronômetro é informativo; o banco determina a validade do QR e da presença.
+**OpenAI Codex (VS Code):** apoio na implementação de componentes React e TypeScript, integração com Supabase, migrações SQL, estilização responsiva e testes direcionados.
 
-Configure `VITE_APP_URL` com a origem pública da aplicação, por exemplo `https://crm.exemplo.com`, sem caminho, query ou fragmento. Ela será usada nos links do QR. Se estiver vazia, será usada a origem atual do navegador. Para acesso pelo celular, use um endereço acessível pelo aparelho; `localhost` aponta para o próprio celular. Em desenvolvimento na mesma rede, configure a origem com o IP do computador e a porta e execute `npm run dev -- --host 0.0.0.0`. Reinicie o Vite ou gere um novo build após alterar variáveis de ambiente. Na hospedagem, mantenha o fallback para `index.html`, incluindo `/presenca` (já configurado em `vercel.json`).
+**ChatGPT:** interpretação dos requisitos, apoio nas decisões de arquitetura e regras de negócio, revisão de segurança, planejamento das validações e documentação.
 
-O QR é gerado localmente em SVG por `qrcode.react`, sem serviço externo. Ele abre `/presenca#token=...` pela câmera do celular, sem leitor interno. O fragmento não é enviado nos pedidos HTTP da página. A aplicação não registra tokens nem respostas das RPCs em logs. Não inclua a URL completa dessa tela em ferramentas de analytics ou logs de navegação.
+### Como os resultados foram conferidos
 
-O corretor precisa entrar na sua conta; o destino da presença é preservado no estado de navegação durante o login, inclusive ao recarregar essa tela. O retorno é limitado à rota interna `/presenca`. Abrir o link ou concluir o login não confirma presença: é necessário clicar em **Confirmar minha presença**. A RPC recebe somente `p_token`; identidade, validade e posição vêm do banco. Após sucesso, a tela informa validade e posição. Uma nova leitura permite outra confirmação explícita para renovar; durante a presença válida, a posição é mantida. Gestores são redirecionados à sua própria área.
+As implementações foram verificadas por meio de builds, testes automatizados direcionados, consultas SQL e testes manuais com sessões reais.
 
-Validação sugerida: leia o QR pelo celular, autentique como corretor, confirme e confira a fila no gestor. Teste uma nova leitura para renovação, QR expirado, usuário sem permissão, falha de rede, lista vazia e retorno à aba após a troca de janela.
+Entre os cenários validados estão:
 
-## Distribuição de leads
+- Login e separação de acesso entre gestor e corretor.
+- Cadastro, edição e persistência de leads e observações.
+- Leitura real do QR Code pelo celular.
+- Rejeição de QR expirado.
+- Renovação de presença sem alteração de posição.
+- Cinco distribuições consecutivas na ordem circular correta.
+- Persistência do histórico e tratamento de reservatório vazio.
+- Bloqueio da distribuição para corretor autenticado.
+- Testes locais de concorrência, expiração e rollback.
+- Responsividade e regressões em diferentes tamanhos de tela.
 
-Com `20261112030000_create_distribuicao.sql` aplicada após as migrações anteriores, o gestor pode clicar em **Distribuir próximo lead** em `/gestor`. Cada clique chama `distribuir_proximo_lead()` uma vez, sem parâmetros. A RPC escolhe o lead mais antigo do reservatório e o próximo corretor elegível, atualiza a mesma fila e grava o histórico em uma transação. A interface não escolhe o destinatário nem altera a atribuição diretamente.
+Os fluxos principais também foram conferidos na aplicação publicada na Vercel, utilizando o Supabase real.
 
-O resultado informa lead, corretor e data. Também há mensagens para reservatório vazio e ausência de corretor elegível. Após uma distribuição, a página recarrega leads, indicadores, reservatório, fila de presença e histórico. O histórico é lido de `public.lead_distribuicoes` e fica disponível somente para gestores pela RLS. Se a rede falhar durante a chamada, confira o histórico e o reservatório antes de clicar novamente: a distribuição pode ter sido concluída no banco mesmo sem a resposta chegar ao navegador.
+## Limitações conhecidas
+
+- O QR Code é exibido na área do gestor; não há uma tela independente para totens ou recepção.
+- A confirmação de presença não utiliza geolocalização, por não ser requisito do desafio.
+- Os cenários de retorno à fila após cinco horas e ausência total de corretores elegíveis foram testados localmente, mas não homologados integralmente no ambiente publicado.
+- A animação visual de roleta não foi implementada, pois é opcional. A distribuição circular está funcional.
+
+---
+
+**San Remo CRM — Desafio Técnico Full Stack | Novembro de 2026**
