@@ -83,4 +83,10 @@ O QR é gerado localmente em SVG por `qrcode.react`, sem serviço externo. Ele a
 
 O corretor precisa entrar na sua conta; o destino da presença é preservado no estado de navegação durante o login, inclusive ao recarregar essa tela. O retorno é limitado à rota interna `/presenca`. Abrir o link ou concluir o login não confirma presença: é necessário clicar em **Confirmar minha presença**. A RPC recebe somente `p_token`; identidade, validade e posição vêm do banco. Após sucesso, a tela informa validade e posição. Uma nova leitura permite outra confirmação explícita para renovar; durante a presença válida, a posição é mantida. Gestores são redirecionados à sua própria área.
 
-Validação sugerida: leia o QR pelo celular, autentique como corretor, confirme e confira a fila no gestor. Teste uma nova leitura para renovação, QR expirado, usuário sem permissão, falha de rede, lista vazia e retorno à aba após a troca de janela. Não há distribuição de leads nesta etapa.
+Validação sugerida: leia o QR pelo celular, autentique como corretor, confirme e confira a fila no gestor. Teste uma nova leitura para renovação, QR expirado, usuário sem permissão, falha de rede, lista vazia e retorno à aba após a troca de janela.
+
+## Distribuição de leads
+
+Com `20261112030000_create_distribuicao.sql` aplicada após as migrações anteriores, o gestor pode clicar em **Distribuir próximo lead** em `/gestor`. Cada clique chama `distribuir_proximo_lead()` uma vez, sem parâmetros. A RPC escolhe o lead mais antigo do reservatório e o próximo corretor elegível, atualiza a mesma fila e grava o histórico em uma transação. A interface não escolhe o destinatário nem altera a atribuição diretamente.
+
+O resultado informa lead, corretor e data. Também há mensagens para reservatório vazio e ausência de corretor elegível. Após uma distribuição, a página recarrega leads, indicadores, reservatório, fila de presença e histórico. O histórico é lido de `public.lead_distribuicoes` e fica disponível somente para gestores pela RLS. Se a rede falhar durante a chamada, confira o histórico e o reservatório antes de clicar novamente: a distribuição pode ter sido concluída no banco mesmo sem a resposta chegar ao navegador.

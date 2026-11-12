@@ -1,0 +1,136 @@
+.distribution-section {
+  margin: 0 0 36px;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid #e3e7db;
+  border-radius: 12px;
+}
+.distribution-header,
+.distribution-history-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.distribution-header h2 {
+  font:
+    650 22px 'Manrope',
+    sans-serif;
+  letter-spacing: -0.04em;
+  margin: 6px 0 8px;
+}
+.distribution-header p:last-child,
+.distribution-history-heading p {
+  color: #71816c;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.distribution-header .primary-button,
+.distribution-history-heading .secondary-button {
+  flex-shrink: 0;
+}
+.distribution-feedback {
+  margin-top: 20px;
+  padding: 14px 17px;
+  border-radius: 7px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.distribution-info {
+  background: #f3f4eb;
+  border: 1px solid #e2e5d5;
+  color: #3d5546;
+}
+.distribution-success {
+  background: #eef5e9;
+  border: 1px solid #d9e7cf;
+  color: #315844;
+}
+.distribution-success p {
+  margin-top: 4px;
+}
+.distribution-success b {
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+.distribution-history-heading {
+  margin: 26px 0 14px;
+  padding-top: 24px;
+  border-top: 1px solid #e8ebdf;
+  align-items: flex-start;
+}
+.distribution-history-heading h3 {
+  font:
+    650 16px 'Manrope',
+    sans-serif;
+  margin: 0 0 5px;
+}
+.distribution-history-state {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 68px;
+  font-size: 12px;
+  color: #71816c;
+}
+.distribution-history-state .error-message {
+  flex: 1;
+}
+.distribution-empty {
+  border-radius: 7px;
+  background: #fafbf7;
+  justify-content: center;
+}
+.distribution-table-scroll {
+  max-height: 290px;
+  overflow: auto;
+}
+.distribution-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 12px;
+  min-width: 500px;
+}
+.distribution-table th,
+.distribution-table td {
+  padding: 13px 12px;
+  border-bottom: 1px solid #e8ebdf;
+}
+.distribution-table thead th {
+  position: sticky;
+  top: 0;
+  background: #fafbf7;
+  z-index: 1;
+  font-size: 10px;
+  font-weight: 550;
+  color: #7d8873;
+}
+.distribution-table tbody th {
+  font-weight: 600;
+  color: #294538;
+  overflow-wrap: anywhere;
+}
+.distribution-table tbody td:last-child {
+  color: #71816c;
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .distribution-section {
+    padding: 22px 18px;
+  }
+  .distribution-header,
+  .distribution-history-heading {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .distribution-header .primary-button,
+  .distribution-history-heading .secondary-button {
+    width: 100%;
+  }
+  .distribution-history-state {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+  }
+}

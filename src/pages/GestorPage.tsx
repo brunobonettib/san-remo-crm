@@ -7,6 +7,7 @@ import { ReservoirList } from '../leads/ReservoirList'
 import { LeadDialog } from '../leads/LeadDialog'
 import type { Lead } from '../leads/types'
 import { PresencaGestor } from '../presenca/PresencaGestor'
+import { DistributionPanel } from '../distribuicao/DistributionPanel'
 import '../leads/leads.css'
 
 export function GestorPage() {
@@ -15,6 +16,7 @@ export function GestorPage() {
   const [view, setView] = useState<'funnel' | 'reservoir'>('funnel')
   const [dialog, setDialog] = useState<{ lead: Lead | null } | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const [presenceRefresh, setPresenceRefresh] = useState(0)
   const reservoir = leads.filter((lead) => lead.responsavel_id === null)
   const won = leads.filter((lead) => lead.etapa === 'Ganho').length
   const open = leads.filter(
@@ -146,6 +148,12 @@ export function GestorPage() {
             </div>
           ))}
         </div>
+        <DistributionPanel
+          onDistributed={() => {
+            void reload()
+            setPresenceRefresh((current) => current + 1)
+          }}
+        />
         <section
           className="crm-leads-section"
           aria-labelledby="leads-section-title"
@@ -230,7 +238,7 @@ export function GestorPage() {
             />
           )}
         </section>
-        <PresencaGestor />
+        <PresencaGestor key={presenceRefresh} />
         <p className="crm-bottom-note">
           <span className="status-dot" /> Cada lead representa uma nova
           possibilidade.
