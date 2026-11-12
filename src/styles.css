@@ -23,7 +23,9 @@ body {
   min-width: 320px;
 }
 button,
-input {
+input,
+select,
+textarea {
   font: inherit;
 }
 button {
@@ -37,9 +39,14 @@ button,
 input {
   -webkit-tap-highlight-color: transparent;
 }
-button:focus-visible {
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex='0']:focus-visible {
   outline: 3px solid #b28e53;
-  outline-offset: 4px;
+  outline-offset: 2px;
 }
 h1,
 h2,
@@ -75,16 +82,16 @@ p {
 .brand-caption {
   display: block;
   margin-top: 5px;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.25em;
-  color: #7e867c;
+  color: #586956;
 }
 .eyebrow {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.16em;
-  color: #967b4e;
+  color: #785d32;
   line-height: 1.7;
 }
 
@@ -108,8 +115,8 @@ p {
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 10px;
-  color: #7d857c;
+  font-size: 12px;
+  color: #536557;
   white-space: nowrap;
 }
 .restricted-label > span {
@@ -134,8 +141,8 @@ p {
 }
 .login-description {
   margin-top: 20px;
-  font-size: 13px;
-  color: #7a8178;
+  font-size: 14px;
+  color: #526556;
   line-height: 1.8;
 }
 .login-form {
@@ -148,7 +155,7 @@ p {
   gap: 9px;
 }
 .field label {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: #374b42;
 }
@@ -161,17 +168,21 @@ p {
   background: #fff;
   color: #1b3530;
   outline: none;
-  font-size: 12px;
+  font-size: 14px;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
 }
 .field input::placeholder {
-  color: #a3a99e;
+  color: #69786c;
 }
 .field input:focus {
   border-color: #a38b5e;
   box-shadow: 0 0 0 3px #ad925a16;
+}
+.field input:focus-visible {
+  outline: 3px solid #b28e53;
+  outline-offset: 2px;
 }
 .password-field {
   position: relative;
@@ -190,7 +201,7 @@ p {
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: #8c9588;
+  color: #536a57;
 }
 .password-toggle:hover {
   color: #203c33;
@@ -210,7 +221,7 @@ p {
   padding: 12px 20px;
   border: 1px solid transparent;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   transition: background 0.2s;
 }
@@ -242,8 +253,8 @@ p {
 }
 .access-help {
   text-align: center;
-  color: #879080;
-  font-size: 11px;
+  color: #526556;
+  font-size: 12px;
   line-height: 1.9;
   margin-top: 25px;
 }
@@ -258,8 +269,8 @@ p {
   padding-top: 27px;
   margin-top: 27px;
   border-top: 1px solid #e6e8de;
-  color: #8a9383;
-  font-size: 10px;
+  color: #586a58;
+  font-size: 12px;
 }
 .security-note svg {
   width: 16px;
@@ -270,8 +281,8 @@ p {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  color: #929a8b;
-  font-size: 9px;
+  color: #596b5a;
+  font-size: 11px;
   line-height: 1.6;
 }
 .error-message {
@@ -280,7 +291,7 @@ p {
   border-radius: 6px;
   padding: 12px 14px;
   color: #9b4637;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.6;
 }
 
@@ -310,14 +321,14 @@ p {
   position: relative;
 }
 .showcase-tag {
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.16em;
   color: #c1c9ae;
   line-height: 1.5;
 }
 .showcase-number {
-  font-size: 8px;
-  color: #8d9d85;
+  font-size: 10px;
+  color: #c1cbb8;
   letter-spacing: 0.06em;
   white-space: nowrap;
 }
@@ -361,8 +372,8 @@ p {
 .architecture-caption {
   position: relative;
   z-index: 1;
-  color: #879c80;
-  font-size: 7px;
+  color: #c0cbb8;
+  font-size: 10px;
   letter-spacing: 0.22em;
   margin-top: 2px;
 }
@@ -390,8 +401,8 @@ p {
 }
 .showcase-copy p {
   margin-top: 16px;
-  font-size: 11px;
-  color: #9dac93;
+  font-size: 13px;
+  color: #d5dfcf;
   line-height: 1.9;
 }
 .showcase-bottom {
@@ -403,8 +414,8 @@ p {
   position: relative;
 }
 .showcase-bottom > span:first-child {
-  color: #8b9c81;
-  font-size: 7px;
+  color: #c0cbb8;
+  font-size: 10px;
   letter-spacing: 0.2em;
 }
 .showcase-spark {
@@ -452,8 +463,8 @@ p {
   margin: 22px 0 14px;
 }
 .session-card > p {
-  color: #788371;
-  font-size: 13px;
+  color: #526556;
+  font-size: 14px;
   line-height: 1.8;
 }
 .session-spinner {
@@ -506,7 +517,7 @@ p {
   border: 1px solid #dce5d1;
   border-radius: 30px;
   padding: 6px 14px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .workspace-main {
   width: min(100%, 1100px);
@@ -525,7 +536,7 @@ p {
 }
 .workspace-intro {
   font-size: 14px;
-  color: #7d8974;
+  color: #536853;
   line-height: 1.8;
   margin-top: 16px;
 }
@@ -554,8 +565,8 @@ p {
   flex-shrink: 0;
 }
 .small-label {
-  font-size: 8px;
-  color: #9a885c;
+  font-size: 11px;
+  color: #785d32;
   font-weight: 700;
   letter-spacing: 0.14em;
 }
@@ -569,7 +580,7 @@ p {
 .welcome-panel p {
   max-width: 550px;
   font-size: 13px;
-  color: #7d8974;
+  color: #536853;
   line-height: 1.9;
   margin-top: 12px;
 }
@@ -578,8 +589,8 @@ p {
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  font-size: 10px;
-  color: #8b9681;
+  font-size: 12px;
+  color: #566955;
   margin-top: 22px;
 }
 .status-dot {
@@ -591,8 +602,8 @@ p {
 .workspace-footer {
   padding: 24px 32px;
   text-align: center;
-  font-size: 10px;
-  color: #99a08f;
+  font-size: 11px;
+  color: #586b58;
 }
 
 @media (min-width: 1500px) {
@@ -678,8 +689,8 @@ p {
   .login-content h1 {
     font-size: 38px;
   }
-  .eyebrow {
-    font-size: 9px;
+  .field input {
+    font-size: 16px;
   }
   .workspace-actions .role-badge {
     display: none;

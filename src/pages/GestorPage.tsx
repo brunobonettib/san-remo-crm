@@ -120,7 +120,7 @@ export function GestorPage() {
             {
               label: 'Em andamento',
               value: open,
-              note: 'Conexões em desenvolvimento',
+              note: 'Exceto ganhos e perdidos; inclui o reservatório',
               symbol: '◴',
             },
             {
@@ -168,7 +168,8 @@ export function GestorPage() {
               disabled={status === 'loading'}
               onClick={refresh}
             >
-              <span aria-hidden="true">↻</span> Atualizar
+              <span aria-hidden="true">↻</span>{' '}
+              {status === 'loading' ? 'Atualizando…' : 'Atualizar'}
             </button>
           </div>
           <div className="crm-view-toolbar">

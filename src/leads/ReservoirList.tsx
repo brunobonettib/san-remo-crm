@@ -17,51 +17,59 @@ export function ReservoirList({
       </div>
     )
   return (
-    <div className="reservoir-table-scroll">
-      <table className="reservoir-table">
-        <caption className="visually-hidden">
-          Leads sem responsável, do mais antigo para o mais recente
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Lead</th>
-            <th scope="col">Interesse</th>
-            <th scope="col">Origem</th>
-            <th scope="col">Etapa</th>
-            <th scope="col">Cadastrado em ↑</th>
-            <th scope="col">
-              <span className="visually-hidden">Ações</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {leads.map((lead) => (
-            <tr key={lead.id}>
-              <td>
-                <strong>{lead.nome}</strong>
-                <span>{lead.telefone}</span>
-              </td>
-              <td>{lead.interesse}</td>
-              <td>{lead.origem}</td>
-              <td>
-                <span className={`stage-badge ${etapaClass(lead.etapa)}`}>
-                  {lead.etapa}
-                </span>
-              </td>
-              <td className="table-date">{formatDate(lead.created_at)}</td>
-              <td>
-                <button
-                  className="text-button"
-                  onClick={() => onOpen(lead)}
-                  aria-label={`Abrir lead ${lead.nome}`}
-                >
-                  Ver detalhes <span aria-hidden="true">↗</span>
-                </button>
-              </td>
+    <>
+      <p className="table-scroll-hint">Deslize a tabela para ver todos os dados →</p>
+      <div
+        className="reservoir-table-scroll"
+        role="region"
+        aria-label="Reservatório de leads"
+        tabIndex={0}
+      >
+        <table className="reservoir-table">
+          <caption className="visually-hidden">
+            Leads sem responsável, do mais antigo para o mais recente
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Lead</th>
+              <th scope="col">Interesse</th>
+              <th scope="col">Origem</th>
+              <th scope="col">Etapa</th>
+              <th scope="col">Cadastrado em ↑</th>
+              <th scope="col">
+                <span className="visually-hidden">Ações</span>
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {leads.map((lead) => (
+              <tr key={lead.id}>
+                <td>
+                  <strong>{lead.nome}</strong>
+                  <span>{lead.telefone}</span>
+                </td>
+                <td>{lead.interesse}</td>
+                <td>{lead.origem}</td>
+                <td>
+                  <span className={`stage-badge ${etapaClass(lead.etapa)}`}>
+                    {lead.etapa}
+                  </span>
+                </td>
+                <td className="table-date">{formatDate(lead.created_at)}</td>
+                <td>
+                  <button
+                    className="text-button"
+                    onClick={() => onOpen(lead)}
+                    aria-label={`Abrir lead ${lead.nome}`}
+                  >
+                    Ver detalhes <span aria-hidden="true">↗</span>
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }

@@ -192,7 +192,9 @@ export function DistributionPanel({
           disabled={historyStatus === 'loading' || busy}
           onClick={() => void reloadHistory()}
         >
-          Atualizar histórico
+          {historyStatus === 'loading'
+            ? 'Atualizando histórico…'
+            : 'Atualizar histórico'}
         </button>
       </div>
       {historyStatus === 'loading' && (
@@ -219,35 +221,40 @@ export function DistributionPanel({
         </p>
       )}
       {historyStatus === 'ready' && history.length > 0 && (
-        <div
-          className="distribution-table-scroll"
-          role="region"
-          aria-label="Histórico de distribuição"
-          tabIndex={0}
-        >
-          <table className="distribution-table">
-            <thead>
-              <tr>
-                <th scope="col">Lead</th>
-                <th scope="col">Corretor</th>
-                <th scope="col">Distribuído em</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history.map((row) => (
-                <tr key={row.lead_id}>
-                  <th scope="row">{row.lead?.nome ?? row.lead_id}</th>
-                  <td>{row.corretor?.nome ?? row.corretor_id}</td>
-                  <td>
-                    <time dateTime={row.distribuido_em}>
-                      {formatDate(row.distribuido_em)}
-                    </time>
-                  </td>
+        <>
+          <p className="table-scroll-hint">
+            Deslize a tabela para ver todos os dados →
+          </p>
+          <div
+            className="distribution-table-scroll"
+            role="region"
+            aria-label="Histórico de distribuição"
+            tabIndex={0}
+          >
+            <table className="distribution-table">
+              <thead>
+                <tr>
+                  <th scope="col">Lead</th>
+                  <th scope="col">Corretor</th>
+                  <th scope="col">Distribuído em</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {history.map((row) => (
+                  <tr key={row.lead_id}>
+                    <th scope="row">{row.lead?.nome ?? row.lead_id}</th>
+                    <td>{row.corretor?.nome ?? row.corretor_id}</td>
+                    <td>
+                      <time dateTime={row.distribuido_em}>
+                        {formatDate(row.distribuido_em)}
+                      </time>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </section>
   )

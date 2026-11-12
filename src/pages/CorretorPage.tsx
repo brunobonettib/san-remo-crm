@@ -83,13 +83,13 @@ export function CorretorPage() {
             {
               label: 'Em andamento',
               value: open,
-              note: 'Conexões em desenvolvimento',
+              note: 'Exceto ganhos e perdidos',
               symbol: '◴',
             },
             {
               label: 'Visitas agendadas',
               value: visits,
-              note: 'Próximos encontros',
+              note: 'Também incluídas em andamento',
               symbol: '◇',
             },
             {
@@ -125,7 +125,8 @@ export function CorretorPage() {
               disabled={status === 'loading'}
               onClick={() => void reload()}
             >
-              <span aria-hidden="true">↻</span> Atualizar
+              <span aria-hidden="true">↻</span>{' '}
+              {status === 'loading' ? 'Atualizando…' : 'Atualizar'}
             </button>
           </div>
           {status === 'loading' && (

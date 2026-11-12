@@ -31,8 +31,8 @@
 }
 .presence-qr-card > p:not(.eyebrow),
 .presence-queue-heading p {
-  color: #6d7d65;
-  font-size: 12px;
+  color: #526852;
+  font-size: 13px;
   line-height: 1.8;
 }
 .presence-qr-image {
@@ -51,8 +51,8 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  color: #6d7d65;
-  font-size: 12px;
+  color: #526852;
+  font-size: 13px;
 }
 .presence-countdown strong {
   color: #203f35;
@@ -61,9 +61,9 @@
 }
 .presence-fine-print,
 .presence-qr-card > .presence-fine-print {
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.8;
-  color: #79846e;
+  color: #526852;
 }
 .presence-queue-heading {
   display: flex;
@@ -83,11 +83,12 @@
 }
 .presence-table-scroll {
   overflow-x: auto;
+  scrollbar-color: #758d71 #e6ebdd;
 }
 .presence-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 13px;
   text-align: left;
   white-space: nowrap;
 }
@@ -97,9 +98,9 @@
   border-bottom: 1px solid #e8ebdf;
 }
 .presence-table thead th {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
-  color: #7d8873;
+  color: #526852;
   background: #fafbf7;
 }
 .presence-table tbody th {
@@ -109,8 +110,8 @@
   overflow-wrap: anywhere;
 }
 .presence-table td:last-child {
-  color: #6d7d65;
-  font-size: 11px;
+  color: #526852;
+  font-size: 12px;
 }
 .presence-position {
   display: inline-block;
@@ -125,7 +126,7 @@
 .presence-badge {
   padding: 5px 9px;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
 }
 .presence-badge.eligible {
@@ -142,16 +143,16 @@
   justify-content: center;
   gap: 10px;
   padding: 35px 0;
-  color: #6d7d65;
-  font-size: 12px;
+  color: #526852;
+  font-size: 13px;
 }
 .presence-empty {
   padding: 40px 12px;
   text-align: center;
   background: #fafbf7;
   border-radius: 8px;
-  color: #6d7d65;
-  font-size: 12px;
+  color: #526852;
+  font-size: 13px;
   line-height: 1.8;
 }
 .presence-empty h4 {
@@ -198,9 +199,9 @@
   margin: 14px 0;
 }
 .presence-confirm-card > p:not(.eyebrow) {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.8;
-  color: #6d7d65;
+  color: #526852;
 }
 .presence-confirm-card .error-message {
   margin-top: 24px;
@@ -219,7 +220,7 @@
   text-align: left;
 }
 .presence-confirm-result h2 {
-  font-size: 13px;
+  font-size: 15px;
   color: #315844;
 }
 .presence-confirm-result dl {
@@ -228,8 +229,8 @@
   margin: 24px 0;
 }
 .presence-confirm-result dt {
-  font-size: 11px;
-  color: #74856b;
+  font-size: 12px;
+  color: #526852;
   margin-bottom: 7px;
 }
 .presence-confirm-result dd {
@@ -238,8 +239,8 @@
   font-weight: 600;
 }
 .presence-confirm-result p {
-  font-size: 11px;
-  color: #74856b;
+  font-size: 12px;
+  color: #526852;
   line-height: 1.8;
 }
 .presence-back-link {
@@ -249,10 +250,10 @@
   border-bottom: 1px solid #bcc9b4;
   margin: 26px 0;
   padding-bottom: 4px;
-  font-size: 12px;
+  font-size: 13px;
 }
 .presence-confirm-card > .presence-fine-print {
-  font-size: 10px;
+  font-size: 12px;
 }
 @media (max-width: 1000px) {
   .presence-grid {

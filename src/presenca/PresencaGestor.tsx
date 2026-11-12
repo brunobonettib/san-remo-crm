@@ -119,7 +119,7 @@ function FilaPresenca() {
           disabled={loading}
           onClick={() => void reload()}
         >
-          Atualizar presenças
+          {loading ? 'Atualizando presenças…' : 'Atualizar presenças'}
         </button>
       </div>
       {loading && !data && (
@@ -140,6 +140,7 @@ function FilaPresenca() {
       )}
       {!!data?.length && (
         <>
+          <p className="table-scroll-hint">Deslize a tabela para ver todos os dados →</p>
           <div
             className="presence-table-scroll"
             role="region"

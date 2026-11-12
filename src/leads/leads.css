@@ -6,8 +6,8 @@
   padding: 21px 3.5%;
 }
 .crm-user {
-  font-size: 12px;
-  color: #71816c;
+  font-size: 13px;
+  color: #526852;
 }
 .crm-subnav {
   min-height: 51px;
@@ -18,7 +18,7 @@
   padding: 12px 3.5%;
   background: #fff;
   border-bottom: 1px solid #e4e8dd;
-  font-size: 11px;
+  font-size: 12px;
   color: #324d3c;
 }
 .crm-subnav > div,
@@ -29,7 +29,7 @@
 }
 .crm-subnav > div > span:last-child,
 .crm-session {
-  color: #8c9682;
+  color: #526852;
 }
 .nav-marker {
   color: #9c895e;
@@ -59,8 +59,8 @@
   margin-top: 12px;
 }
 .crm-page-heading > div > p:last-child {
-  font-size: 12px;
-  color: #7d8873;
+  font-size: 14px;
+  color: #526852;
   margin-top: 12px;
   line-height: 1.8;
 }
@@ -93,8 +93,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  font-size: 11px;
-  color: #697b61;
+  font-size: 13px;
+  color: #425e43;
 }
 .metric-symbol {
   display: inline-grid;
@@ -116,9 +116,10 @@
   margin-top: 13px;
 }
 .metric-card p {
-  font-size: 9px;
-  color: #8b9580;
+  font-size: 12px;
+  color: #526852;
   margin-top: 11px;
+  line-height: 1.5;
 }
 .crm-section-heading {
   display: flex;
@@ -134,14 +135,14 @@
   font-weight: 650;
 }
 .crm-section-heading p {
-  font-size: 11px;
-  color: #8a9580;
+  font-size: 13px;
+  color: #526852;
   margin-top: 7px;
 }
 .refresh-button {
-  min-height: 37px;
+  min-height: 42px;
   padding: 8px 12px;
-  font-size: 10px;
+  font-size: 13px;
   background: #fff;
 }
 .refresh-button > span {
@@ -167,9 +168,9 @@
   border: 0;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
-  color: #8c9681;
+  color: #536852;
   padding: 0 0 14px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
 }
 .crm-view-options > button.active {
@@ -182,11 +183,11 @@
   min-width: 20px;
   padding: 3px 5px;
   background: #e8eddf;
-  font-size: 9px;
+  font-size: 11px;
 }
 .crm-order-note {
-  font-size: 9px;
-  color: #939c88;
+  font-size: 12px;
+  color: #536852;
   padding-bottom: 13px;
 }
 .lead-board {
@@ -195,12 +196,34 @@
   gap: 12px;
   overflow-x: auto;
   padding-bottom: 16px;
-  scrollbar-color: #c7cfb9 transparent;
-  scrollbar-width: thin;
+  scrollbar-color: #758d71 #e6ebdd;
+  scrollbar-width: auto;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-inline: contain;
   min-height: 290px;
+}
+.lead-board::-webkit-scrollbar {
+  height: 10px;
+}
+.lead-board::-webkit-scrollbar-track {
+  background: #e6ebdd;
+  border-radius: 10px;
+}
+.lead-board::-webkit-scrollbar-thumb {
+  background: #758d71;
+  border-radius: 10px;
+}
+.lead-board-hint {
+  display: none;
+  margin: 0 0 12px;
+  color: #425e43;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
 }
 .funnel-column {
   min-width: 0;
+  scroll-snap-align: start;
   padding: 12px 8px 8px;
   border: 1px solid #e4e8dc;
   border-radius: 8px;
@@ -219,32 +242,38 @@
   gap: 7px;
   margin: 0;
   color: #56684b;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
 }
 .stage-0 {
   --stage-color: #8194a6;
   --stage-bg: #eaf0f4;
+  --stage-text: #3e5b70;
 }
 .stage-1 {
   --stage-color: #b79b5a;
   --stage-bg: #f5efdf;
+  --stage-text: #6b5018;
 }
 .stage-2 {
   --stage-color: #8f86b0;
   --stage-bg: #eeebf6;
+  --stage-text: #514873;
 }
 .stage-3 {
   --stage-color: #bd9165;
   --stage-bg: #f5eadf;
+  --stage-text: #754520;
 }
 .stage-4 {
   --stage-color: #5b916b;
   --stage-bg: #e7f1e7;
+  --stage-text: #356045;
 }
 .stage-5 {
   --stage-color: #b17e77;
   --stage-bg: #f5e8e4;
+  --stage-text: #783d38;
 }
 .stage-dot {
   width: 6px;
@@ -260,8 +289,8 @@
   border-radius: 4px;
   text-align: center;
   background: #e3e8da;
-  color: #6f7b60;
-  font-size: 9px;
+  color: #425e43;
+  font-size: 11px;
 }
 .column-cards {
   display: grid;
@@ -285,26 +314,26 @@
 }
 .card-origin {
   display: inline-block;
-  color: #8b927e;
+  color: #4e644c;
   background: #f6f7f1;
   border: 1px solid #ecefe3;
   border-radius: 4px;
   padding: 3px 6px;
-  font-size: 8px;
+  font-size: 11px;
   max-width: 100%;
   overflow-wrap: anywhere;
 }
 .lead-card h4 {
   color: #2c4435;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 650;
   line-height: 1.5;
   margin: 10px 0 4px;
   overflow-wrap: anywhere;
 }
 .card-interest {
-  color: #929a88;
-  font-size: 10px;
+  color: #526852;
+  font-size: 12px;
   line-height: 1.7;
   overflow-wrap: anywhere;
   display: -webkit-box;
@@ -313,8 +342,8 @@
   overflow: hidden;
 }
 .card-phone {
-  color: #728166;
-  font-size: 10px;
+  color: #425e43;
+  font-size: 12px;
   margin-top: 12px;
   overflow-wrap: anywhere;
 }
@@ -325,8 +354,8 @@
   border-top: 1px solid #edf0e6;
   padding-top: 10px;
   margin-top: 13px;
-  color: #8b957f;
-  font-size: 9px;
+  color: #526852;
+  font-size: 11px;
 }
 .card-owner > span:last-child {
   overflow: hidden;
@@ -353,8 +382,8 @@
 }
 .card-date {
   display: block;
-  font-size: 8px;
-  color: #a5ac99;
+  font-size: 11px;
+  color: #526852;
   margin-top: 10px;
 }
 .column-empty {
@@ -362,15 +391,15 @@
   border-radius: 6px;
   padding: 26px 10px;
   text-align: center;
-  font-size: 9px;
-  color: #9aa58c;
+  font-size: 12px;
+  color: #526852;
 }
 .crm-bottom-note {
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 9px;
-  color: #9aa48f;
+  font-size: 12px;
+  color: #526852;
   padding: 12px 0 16px;
 }
 .crm-empty {
@@ -393,8 +422,8 @@
   margin: 0 0 10px;
 }
 .crm-empty p {
-  color: #8b977c;
-  font-size: 11px;
+  color: #526852;
+  font-size: 13px;
   line-height: 1.8;
 }
 .crm-empty-banner {
@@ -424,9 +453,9 @@
 }
 .crm-load-state p {
   max-width: 430px;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.8;
-  color: #839277;
+  color: #526852;
 }
 .crm-load-state > button {
   margin-top: 20px;
@@ -447,10 +476,10 @@
   background: #eaf2e3;
   border: 1px solid #cfdfc3;
   border-radius: 7px;
-  color: #4f7441;
+  color: #315b38;
   padding: 13px 16px;
   margin-bottom: 22px;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.7;
 }
 .crm-success > button {
@@ -466,6 +495,7 @@
 }
 .reservoir-table-scroll {
   overflow-x: auto;
+  scrollbar-color: #758d71 #e6ebdd;
   background: #fff;
   border: 1px solid #e2e7d8;
   border-radius: 8px;
@@ -477,8 +507,8 @@
   text-align: left;
 }
 .reservoir-table th {
-  font-size: 9px;
-  color: #8e987f;
+  font-size: 12px;
+  color: #526852;
   font-weight: 500;
   background: #fafbf7;
   padding: 15px 20px;
@@ -486,8 +516,8 @@
 }
 .reservoir-table td {
   padding: 18px 20px;
-  font-size: 11px;
-  color: #748468;
+  font-size: 13px;
+  color: #526852;
   border-bottom: 1px solid #edf0e7;
   max-width: 280px;
   overflow-wrap: anywhere;
@@ -498,17 +528,17 @@
 .reservoir-table td > strong {
   display: block;
   color: #354f3a;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
 }
 .reservoir-table td > span:not(.stage-badge) {
   display: block;
-  color: #9ba68d;
-  font-size: 10px;
+  color: #526852;
+  font-size: 12px;
   margin-top: 6px;
 }
 .reservoir-table td.table-date {
-  font-size: 10px;
+  font-size: 12px;
   white-space: nowrap;
 }
 .stage-badge {
@@ -517,11 +547,11 @@
   gap: 5px;
   background: var(--stage-bg);
   border: 1px solid transparent;
-  color: var(--stage-color);
+  color: var(--stage-text);
   border-radius: 5px;
   padding: 5px 8px;
   white-space: nowrap;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 600;
 }
 .stage-badge::before {
@@ -529,14 +559,21 @@
   height: 4px;
   width: 4px;
   border-radius: 50%;
-  background: currentColor;
+  background: var(--stage-color);
+}
+.table-scroll-hint {
+  display: none;
+  margin: 0 0 10px;
+  color: #425e43;
+  font-size: 12px;
+  line-height: 1.5;
 }
 .text-button {
   padding: 7px 0;
   border: 0;
   background: none;
-  font-size: 10px;
-  color: #62794f;
+  font-size: 13px;
+  color: #345a3b;
   white-space: nowrap;
 }
 .text-button:hover {
@@ -558,6 +595,7 @@
 .lead-dialog {
   width: min(650px, calc(100% - 32px));
   max-height: calc(100svh - 48px);
+  overflow-y: auto;
   border: 1px solid #dce4d1;
   border-radius: 14px;
   padding: 0;
@@ -590,10 +628,10 @@
   place-items: center;
   background: #f5f7f0;
   border: 1px solid #e7ecde;
-  color: #829272;
+  color: #425e43;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 38px;
+  height: 38px;
   padding: 0;
   font-size: 21px;
   flex-shrink: 0;
@@ -603,15 +641,15 @@
   padding: 24px 30px 28px;
 }
 .form-description {
-  font-size: 12px;
-  color: #829175;
+  font-size: 13px;
+  color: #526852;
   line-height: 1.9;
   margin-bottom: 23px;
 }
 .form-description > span {
   display: block;
-  font-size: 10px;
-  color: #a0a992;
+  font-size: 12px;
+  color: #526852;
 }
 .lead-form-fields {
   margin: 0;
@@ -629,18 +667,18 @@
   min-width: 0;
 }
 .lead-form .field label {
-  font-size: 11px;
+  font-size: 13px;
 }
 .lead-form .field label > span {
-  font-size: 10px;
-  color: #a0a991;
+  font-size: 12px;
+  color: #526852;
   font-weight: 400;
 }
 .lead-form .field input,
 .lead-form .field select {
   height: 45px;
   min-width: 0;
-  font-size: 12px;
+  font-size: 14px;
   width: 100%;
   border: 1px solid #dfe3da;
   border-radius: 6px;
@@ -653,16 +691,20 @@
   outline: 3px solid #ad925a20;
   border-color: #a38b5e;
 }
+.lead-form .field select:focus-visible {
+  outline: 3px solid #b28e53;
+  outline-offset: 2px;
+}
 .assignment-note {
   display: flex;
   align-items: flex-start;
   gap: 8px;
   background: #f8f7ef;
-  color: #94825b;
+  color: #6d5832;
   border: 1px solid #ede9d9;
   padding: 12px;
   border-radius: 6px;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.8;
   margin-top: 22px;
 }
@@ -702,8 +744,8 @@
   text-transform: uppercase;
 }
 .detail-summary p {
-  font-size: 12px;
-  color: #7e8d72;
+  font-size: 13px;
+  color: #526852;
   line-height: 1.8;
   margin-top: 9px;
   overflow-wrap: anywhere;
@@ -718,14 +760,14 @@
   min-width: 0;
 }
 .lead-detail-grid dt {
-  color: #9aa58c;
-  font-size: 10px;
+  color: #526852;
+  font-size: 12px;
   margin-bottom: 7px;
 }
 .lead-detail-grid dd {
   margin: 0;
-  color: #526a48;
-  font-size: 12px;
+  color: #36533a;
+  font-size: 14px;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
@@ -739,7 +781,7 @@
 .observation-form > label {
   display: block;
   color: #526a48;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   margin-bottom: 10px;
 }
@@ -756,7 +798,7 @@
   color: #1b3530;
   background: #fff;
   font: inherit;
-  font-size: 12px;
+  font-size: 14px;
 }
 .stage-form-row select:focus {
   outline: 3px solid #ad925a20;
@@ -780,18 +822,18 @@
 .observations-heading h3 > span {
   display: inline-block;
   background: #edf2e3;
-  color: #879b70;
+  color: #425e43;
   border-radius: 4px;
   padding: 3px 6px;
   margin-left: 5px;
   font-family: 'DM Sans', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   vertical-align: middle;
 }
 .observations-state {
   padding: 15px 0;
-  color: #8b977c;
-  font-size: 12px;
+  color: #526852;
+  font-size: 13px;
   line-height: 1.8;
 }
 .observations-state > .spinner {
@@ -814,15 +856,20 @@
   background: #fdfefa;
   color: #1b3530;
   font: inherit;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
 }
 .observation-form textarea::placeholder {
-  color: #a0aa92;
+  color: #69786c;
 }
 .observation-form textarea:focus {
   outline: 3px solid #ad925a20;
   border-color: #a38b5e;
+}
+.stage-form-row select:focus-visible,
+.observation-form textarea:focus-visible {
+  outline: 3px solid #b28e53;
+  outline-offset: 2px;
 }
 .observation-form-footer {
   display: flex;
@@ -833,13 +880,13 @@
 }
 .observation-form-footer > span {
   max-width: 220px;
-  color: #9aa58c;
-  font-size: 9px;
+  color: #526852;
+  font-size: 12px;
   line-height: 1.8;
 }
 .observation-form-footer button {
-  min-height: 38px;
-  font-size: 10px;
+  min-height: 42px;
+  font-size: 13px;
   padding: 9px 14px;
   flex-shrink: 0;
 }
@@ -847,11 +894,11 @@
   margin-top: 16px;
 }
 .observation-success {
-  color: #5c844b;
+  color: #315b38;
   background: #edf5e6;
   border: 1px solid #d9e7ce;
   border-radius: 6px;
-  font-size: 11px;
+  font-size: 13px;
   padding: 10px 12px;
   margin-top: 16px;
   line-height: 1.8;
@@ -861,8 +908,8 @@
   border: 1px dashed #dde5d0;
   border-radius: 6px;
   margin-top: 22px;
-  color: #939f83;
-  font-size: 11px;
+  color: #526852;
+  font-size: 13px;
   line-height: 1.9;
   text-align: center;
 }
@@ -888,20 +935,20 @@
   gap: 8px;
 }
 .observation-meta strong {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
-  color: #69815a;
+  color: #365b3b;
   overflow-wrap: anywhere;
 }
 .observation-meta time {
-  color: #a0ac92;
-  font-size: 9px;
+  color: #526852;
+  font-size: 11px;
   flex-shrink: 0;
 }
 .observation-list li > p {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.9;
-  color: #65785b;
+  color: #425e43;
   margin-top: 10px;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
@@ -931,6 +978,12 @@
   }
 }
 @media (max-width: 900px) {
+  .lead-board-hint {
+    display: block;
+  }
+  .table-scroll-hint {
+    display: block;
+  }
   .crm-metrics {
     gap: 10px;
   }
@@ -962,7 +1015,7 @@
   }
   .crm-subnav {
     padding-inline: 20px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .crm-session {
     display: none;
@@ -978,10 +1031,10 @@
     font-size: 29px;
   }
   .crm-page-heading .eyebrow {
-    font-size: 8px;
+    font-size: 11px;
   }
   .crm-page-heading > div > p:last-child {
-    font-size: 11px;
+    font-size: 13px;
     max-width: 340px;
   }
   .mobile-heading-break {
@@ -1003,7 +1056,7 @@
     font-size: 28px;
   }
   .metric-card > div {
-    font-size: 10px;
+    font-size: 12px;
     gap: 3px;
   }
   .metric-symbol {
@@ -1012,13 +1065,13 @@
     font-size: 14px;
   }
   .metric-card p {
-    font-size: 8px;
+    font-size: 11px;
   }
   .crm-section-heading h2 {
     font-size: 19px;
   }
   .crm-section-heading p {
-    font-size: 10px;
+    font-size: 12px;
     max-width: 170px;
     line-height: 1.7;
   }
@@ -1029,13 +1082,16 @@
     gap: 20px;
   }
   .crm-view-options > button {
-    font-size: 10px;
+    font-size: 12px;
   }
   .lead-board {
     grid-template-columns: repeat(6, 250px);
   }
-  .column-heading h3 {
-    font-size: 11px;
+  .lead-form .field input,
+  .lead-form .field select,
+  .stage-form-row select,
+  .observation-form textarea {
+    font-size: 16px;
   }
   .lead-dialog {
     max-height: calc(100svh - 24px);
@@ -1061,6 +1117,9 @@
     gap: 20px;
   }
   .lead-dialog-actions .primary-button {
+    flex: 1;
+  }
+  .lead-dialog-actions .secondary-button {
     flex: 1;
   }
 }
