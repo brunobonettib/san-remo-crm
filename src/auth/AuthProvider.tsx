@@ -10,6 +10,7 @@ type AuthSnapshot = {
   session: Session | null
   initialized: boolean
   error: string | null
+  identityVersion: number
 }
 type AuthState =
   | { status: 'loading'; profile: null; error: null }
@@ -31,6 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     session: null,
     initialized: false,
     error: null,
+    identityVersion: 0,
   })
   const [profileResult, setProfileResult] = useState<{
     source: AuthSnapshot
@@ -47,6 +49,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const sessionError =
       'Não foi possível recuperar sua sessão. Tente novamente.'
 
+    function applySession(
+      session: Session | null,
+      error: string | null = null,
+    ) {
+      if (!session) setProfileResult(null)
+      setAuth((current) => ({
+        session,
+        initialized: true,
+        error,
+        // Logout ou troca de usuario invalida qualquer perfil anterior,
+        // inclusive em uma nova entrada posterior do mesmo usuario.
+        identityVersion:
+          current.identityVersion +
+          (current.session?.user.id !== session?.user.id ? 1 : 0),
+      }))
+    }
+
     // Apenas atualizar estado aqui; consultas Supabase ficam fora do callback.
     const {
       data: { subscription },
@@ -54,12 +73,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!active) return
       receivedEvent = true
       setLogoutError(null)
-      setAuth({ session, initialized: true, error: null })
+      applySession(session)
     })
 
     const timeout = window.setTimeout(() => {
       if (active && !receivedEvent) {
-        setAuth({ session: null, initialized: true, error: sessionError })
+        applySession(null, sessionError)
       }
     }, REQUEST_TIMEOUT)
 
@@ -69,16 +88,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // Eventos recentes prevalecem sobre uma leitura inicial atrasada.
         if (!active || receivedEvent) return
         window.clearTimeout(timeout)
-        setAuth({
-          session: error ? null : data.session,
-          initialized: true,
-          error: error ? sessionError : null,
-        })
+        applySession(error ? null : data.session, error ? sessionError : null)
       })
       .catch(() => {
         if (!active || receivedEvent) return
         window.clearTimeout(timeout)
-        setAuth({ session: null, initialized: true, error: sessionError })
+        applySession(null, sessionError)
       })
 
     return () => {
@@ -153,7 +168,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { error } = await supabase.auth.signOut({ scope: 'local' })
       if (error) throw error
       setProfileResult(null)
-      setAuth({ session: null, initialized: true, error: null })
+      setAuth((current) => ({
+        ...current,
+        session: null,
+        initialized: true,
+        error: null,
+        identityVersion: current.identityVersion + 1,
+      }))
     } catch {
       setLogoutError(
         'Não foi possível confirmar a saída no servidor. Verifique sua conexão.',
@@ -176,8 +197,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     state = { status: 'error', profile: null, error: auth.error }
   } else if (!auth.session) {
     state = { status: 'signed-out', profile: null, error: null }
-  } else if (!profileResult || profileResult.source !== auth) {
-    // Um resultado so vale para a sessao/evento que iniciou sua consulta.
+  } else if (
+    !profileResult ||
+    (profileResult.source !== auth &&
+      (!profileResult.profile ||
+        profileResult.source.identityVersion !== auth.identityVersion))
+  ) {
+    // Sem perfil validado para esta identidade, continuar bloqueando o acesso.
     state = { status: 'loading', profile: null, error: null }
   } else if (profileResult.error || !profileResult.profile) {
     state = {
@@ -186,6 +212,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       error: profileResult.error ?? 'Acesso não autorizado.',
     }
   } else {
+    // Revalidar o mesmo usuario em segundo plano sem desmontar a pagina.
+    // O resultado da consulta continua aplicando mudancas de papel ou erros.
     state = { status: 'ready', profile: profileResult.profile, error: null }
   }
 

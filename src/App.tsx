@@ -4,10 +4,19 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAuth } from './auth/AuthProvider'
 import type { Papel } from './auth/AuthProvider'
 import { Brand } from './components/Brand'
-import { HomePage } from './pages/HomePage'
 
 const LoginPage = lazy(() =>
   import('./pages/LoginPage').then((module) => ({ default: module.LoginPage })),
+)
+const GestorPage = lazy(() =>
+  import('./pages/GestorPage').then((module) => ({
+    default: module.GestorPage,
+  })),
+)
+const CorretorPage = lazy(() =>
+  import('./pages/CorretorPage').then((module) => ({
+    default: module.CorretorPage,
+  })),
 )
 
 function SessionStatus({ pending = false }: { pending?: boolean }) {
@@ -91,7 +100,7 @@ function App() {
           path="/gestor"
           element={
             <ProtectedRoute papel="gestor">
-              <HomePage papel="gestor" />
+              <GestorPage />
             </ProtectedRoute>
           }
         />
@@ -99,7 +108,7 @@ function App() {
           path="/corretor"
           element={
             <ProtectedRoute papel="corretor">
-              <HomePage papel="corretor" />
+              <CorretorPage />
             </ProtectedRoute>
           }
         />
