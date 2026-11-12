@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react'
 import { lazy, Suspense } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { useAuth } from './auth/AuthProvider'
 import type { Papel } from './auth/AuthProvider'
 import { Brand } from './components/Brand'
+import { presenceReturnTo } from './presenca/links'
 
 const LoginPage = lazy(() =>
   import('./pages/LoginPage').then((module) => ({ default: module.LoginPage })),
@@ -16,6 +17,11 @@ const GestorPage = lazy(() =>
 const CorretorPage = lazy(() =>
   import('./pages/CorretorPage').then((module) => ({
     default: module.CorretorPage,
+  })),
+)
+const PresencaPage = lazy(() =>
+  import('./pages/PresencaPage').then((module) => ({
+    default: module.PresencaPage,
   })),
 )
 
@@ -74,9 +80,24 @@ function ProtectedRoute({
   children: ReactNode
 }) {
   const auth = useAuth()
+  const location = useLocation()
   if (auth.isSigningOut || auth.status === 'loading' || auth.status === 'error')
     return <SessionStatus />
-  if (auth.status === 'signed-out') return <Navigate to="/login" replace />
+  if (auth.status === 'signed-out')
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={
+          location.pathname === '/presenca'
+            ? {
+                presenceReturnTo:
+                  location.pathname + location.search + location.hash,
+              }
+            : null
+        }
+      />
+    )
   if (auth.profile.papel !== papel)
     return <Navigate to={`/${auth.profile.papel}`} replace />
   return children
@@ -84,10 +105,19 @@ function ProtectedRoute({
 
 function EntryRoute({ login = false }: { login?: boolean }) {
   const auth = useAuth()
+  const location = useLocation()
   if (auth.isSigningOut || auth.status === 'loading' || auth.status === 'error')
     return <SessionStatus />
   if (auth.status === 'ready')
-    return <Navigate to={`/${auth.profile.papel}`} replace />
+    return (
+      <Navigate
+        to={
+          (login && presenceReturnTo(location.state)) ||
+          `/${auth.profile.papel}`
+        }
+        replace
+      />
+    )
   return login ? <LoginPage /> : <Navigate to="/login" replace />
 }
 
@@ -96,6 +126,14 @@ function App() {
     <Suspense fallback={<SessionStatus pending />}>
       <Routes>
         <Route path="/login" element={<EntryRoute login />} />
+        <Route
+          path="/presenca"
+          element={
+            <ProtectedRoute papel="corretor">
+              <PresencaPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/gestor"
           element={

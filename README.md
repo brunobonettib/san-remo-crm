@@ -70,3 +70,17 @@ Em `/corretor`, o funil lista somente o resultado autorizado pela RLS da sessão
 O detalhe do lead inclui observações para gestor e corretor, com texto, autor e data. O cadastro envia somente `lead_id` e `texto`; os registros não podem ser editados ou excluídos pela interface. Quando a RLS de `profiles` impede a consulta ao nome de outro autor, a observação exibe seu identificador real (`autor_id`), sem tentar ampliar o acesso ao perfil.
 
 Validação do corretor: use um usuário com leads atribuídos, confira as seis etapas e atualize uma etapa. Em ambos os perfis, registre uma observação, reabra o detalhe e confira texto, autor e data. Confirme também as mensagens para lista vazia, falha de consulta e operação negada pelo banco.
+
+## Presença por QR Code
+
+Requer a migração `20261112020000_create_presenca.sql` aplicada manualmente no Supabase, após as anteriores. A interface utiliza somente as RPCs `obter_qr_presenca()`, `listar_presencas()` e `confirmar_presenca(p_token)`; não consulta nem altera as tabelas privadas.
+
+Em `/gestor`, a seção **Presença e equipe** exibe o QR vigente e a fila com posição, validade e elegibilidade retornadas pelo servidor. O QR é consultado na fronteira estimada da janela de cinco minutos, a cada 15 segundos e ao retornar à aba. A fila é atualizada a cada 30 segundos e pode ser atualizada manualmente. O cronômetro é informativo; o banco determina a validade do QR e da presença.
+
+Configure `VITE_APP_URL` com a origem pública da aplicação, por exemplo `https://crm.exemplo.com`, sem caminho, query ou fragmento. Ela será usada nos links do QR. Se estiver vazia, será usada a origem atual do navegador. Para acesso pelo celular, use um endereço acessível pelo aparelho; `localhost` aponta para o próprio celular. Em desenvolvimento na mesma rede, configure a origem com o IP do computador e a porta e execute `npm run dev -- --host 0.0.0.0`. Reinicie o Vite ou gere um novo build após alterar variáveis de ambiente. Na hospedagem, mantenha o fallback para `index.html`, incluindo `/presenca` (já configurado em `vercel.json`).
+
+O QR é gerado localmente em SVG por `qrcode.react`, sem serviço externo. Ele abre `/presenca#token=...` pela câmera do celular, sem leitor interno. O fragmento não é enviado nos pedidos HTTP da página. A aplicação não registra tokens nem respostas das RPCs em logs. Não inclua a URL completa dessa tela em ferramentas de analytics ou logs de navegação.
+
+O corretor precisa entrar na sua conta; o destino da presença é preservado no estado de navegação durante o login, inclusive ao recarregar essa tela. O retorno é limitado à rota interna `/presenca`. Abrir o link ou concluir o login não confirma presença: é necessário clicar em **Confirmar minha presença**. A RPC recebe somente `p_token`; identidade, validade e posição vêm do banco. Após sucesso, a tela informa validade e posição. Uma nova leitura permite outra confirmação explícita para renovar; durante a presença válida, a posição é mantida. Gestores são redirecionados à sua própria área.
+
+Validação sugerida: leia o QR pelo celular, autentique como corretor, confirme e confira a fila no gestor. Teste uma nova leitura para renovação, QR expirado, usuário sem permissão, falha de rede, lista vazia e retorno à aba após a troca de janela. Não há distribuição de leads nesta etapa.

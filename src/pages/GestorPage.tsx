@@ -6,6 +6,7 @@ import { LeadBoard } from '../leads/LeadBoard'
 import { ReservoirList } from '../leads/ReservoirList'
 import { LeadDialog } from '../leads/LeadDialog'
 import type { Lead } from '../leads/types'
+import { PresencaGestor } from '../presenca/PresencaGestor'
 import '../leads/leads.css'
 
 export function GestorPage() {
@@ -229,6 +230,7 @@ export function GestorPage() {
             />
           )}
         </section>
+        <PresencaGestor />
         <p className="crm-bottom-note">
           <span className="status-dot" /> Cada lead representa uma nova
           possibilidade.
